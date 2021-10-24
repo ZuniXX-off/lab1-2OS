@@ -80,29 +80,29 @@ void DoCopyFile() {
 	DWORD highOrderOfSize;
 	
 
-	std::cout << "Ââåäèòå ïóòü ê ôàéëó-èñòî÷íèêó: ";
+	std::cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð¿ÑƒÑ‚ÑŒ Ðº Ñ„Ð°Ð¹Ð»Ñƒ-Ð¸ÑÑ‚Ð¾Ñ‡Ð½Ð¸ÐºÑƒ: ";
 	std::getline(std::cin, sourcePath);
 	sourceHandle = CreateFileA(sourcePath.c_str(), GENERIC_READ, 0, nullptr, OPEN_EXISTING, 
 		FILE_FLAG_NO_BUFFERING | FILE_FLAG_OVERLAPPED, NULL);
 	if (sourceHandle == INVALID_HANDLE_VALUE) {
-		std::cout << "Ïðîèçîøëà îøèáêà ïðè îòêðûòèè ôàéëà ñ êîäîì: " << GetLastError();
+		std::cout << "ÐžÑˆÐ¸Ð±ÐºÐ° Ð¿Ñ€Ð¸ Ð¾Ñ‚ÐºÑ€Ñ‹Ñ‚Ð¸Ð¸ Ñ„Ð°Ð¹Ð»Ð° Ñ ÐºÐ¾Ð´Ð¾Ð¼: " << GetLastError();
 		return;
 	}
 
-	std::cout << "Ââåäèòå ïóòü ðàçìåùåíèÿ êîïèè: ";
+	std::cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð¿ÑƒÑ‚ÑŒ Ñ€Ð°Ð·Ð¼ÐµÑ‰ÐµÐ½Ð¸Ñ ÐºÐ¾Ð¿Ð¸Ð¸: ";
 	std::getline(std::cin, newFilePath);
 	newFileHanlde = CreateFileA(newFilePath.c_str(), GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS,
 		FILE_FLAG_NO_BUFFERING | FILE_FLAG_OVERLAPPED, NULL);
-	if (newFileHanlde == INVALID_HANDLE_VALUE || GetLastError() != 0) {
-		std::cout << "Ïðîèçîøëà îøèáêà ïðè ñîçäàíèè íîâîãî ôàéëà ñ êîäîì: " << GetLastError();
+	if (newFileHanlde == INVALID_HANDLE_VALUE && GetLastError() != 0) {
+		std::cout << "ÐžÑˆÐ¸Ð±ÐºÐ° Ð¿Ñ€Ð¸ ÑÐ¾Ð·Ð´Ð°Ð½Ð¸Ð¸ Ð½Ð¾Ð²Ð¾Ð³Ð¾ Ñ„Ð°Ð¹Ð»Ð° Ñ ÐºÐ¾Ð´Ð¾Ð¼: " << GetLastError();
 		CloseHandle(sourceHandle);
 		return;
 	}
 
-	std::cout << "Ââåäèòå ðàçìåð áëîêà: ";
+	std::cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ñ€Ð°Ð·Ð¼ÐµÑ€ Ð±Ð»Ð¾ÐºÐ°: ";
 	std::cin >> sizeBlock;
 
-	std::cout << "Ââåäèòå êîëè÷åñòâî îïåðàöèé: ";
+	std::cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ ÐºÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ Ð¾Ð¿ÐµÑ€Ð°Ñ†Ð¸Ð¹: ";
 	std::cin >> countOfOperations;
 
 	lowOrderOfSize = GetFileSize(sourceHandle, &highOrderOfSize);
@@ -111,7 +111,7 @@ void DoCopyFile() {
 	MyCopyFile(sourceHandle, newFileHanlde, sizeBlock, countOfOperations, lowOrderOfSize, highOrderOfSize);
 	DWORD endTime = GetTickCount();
 
-	std::cout << "Çàòðà÷åííîå âðåìÿ: " << endTime - startTime << " ìñ" << std::endl;
+	std::cout << "Ð—Ð°Ñ‚Ñ€Ð°Ñ‡ÐµÐ½Ð½Ð¾Ðµ Ð²Ñ€ÐµÐ¼Ñ: " << endTime - startTime << " Ð¼Ñ" << std::endl;
 
 	long temp = static_cast<long>(highOrderOfSize);
 	SetFilePointer(newFileHanlde, lowOrderOfSize, &temp, FILE_BEGIN);
